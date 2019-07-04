@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">HomeGo</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+
+    <!--Menu-->
+    <string name="nav_drawer_open">Open drawer</string>
+    <string name="nav_drawer_close">Close drawer</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="about">About</string>
+
+    <!--Ad-->
+    <string name="location">Location</string>
+    <!--TODO: Get currency from settings -->
+    <string name="currency">CHF</string>
+
+</resources>
