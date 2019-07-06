@@ -11,6 +11,7 @@
     <dimen name="text_padding">8dp</dimen>
 
     <!--List Entry-->
+    <dimen name="list_padding">8dp</dimen>
     <dimen name="entry_image_height">150dp</dimen>
     <dimen name="entry_price_elevation">8dp</dimen>
     <dimen name="entry_price_margin">10dp</dimen>
