@@ -1,4 +1,4 @@
-package com.test.homego.ui.main
+package com.test.homego.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.test.homego.R
+import com.test.homego.ui.model.PageViewModel
 
 /**
  * A placeholder fragment containing a simple view.

@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.test.homego.ui.AdListFragment
-import com.test.homego.ui.main.PlaceholderFragment
+import com.test.homego.ui.PlaceholderFragment
 
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 

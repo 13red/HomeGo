@@ -11,7 +11,10 @@
 
     <!--Ad-->
     <string name="location">Location</string>
-    <!--TODO: Get currency from settings -->
-    <string name="currency">CHF</string>
+
+    <!--Connection-->
+    <string name="warning">Warning</string>
+    <string name="need_permissions">Permissions needed by this app are not granted</string>
+    <string name="need_internet">No internet connection</string>
 
 </resources>

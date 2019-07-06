@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.test.homego.ui.AdListFragment
 import com.test.homego.adapters.SectionsPagerAdapter
+import com.test.homego.data.DataConnection
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,
@@ -40,12 +41,10 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Init ViewPager and Tabs
+        // Init ViewPager
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
-//        val tabs: TabLayout = findViewById(R.id.tabs)
-//        tabs.setupWithViewPager(viewPager)
 
         // Init Menu and Toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -58,6 +57,9 @@ class MainActivity : AppCompatActivity(),
         drawer.addDrawerListener(toggle)
         toggle.syncState()
         navigationView.setNavigationItemSelectedListener(this)
+
+        // GetData
+        DataConnection(this).getData()
     }
 
     override fun onBackPressed() {
