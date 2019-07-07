@@ -6,6 +6,7 @@
     <!--Menu-->
     <string name="nav_drawer_open">Open drawer</string>
     <string name="nav_drawer_close">Close drawer</string>
+    <string name="home">Home</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="about">About</string>
 
@@ -16,5 +17,11 @@
     <string name="warning">Warning</string>
     <string name="need_permissions">Permissions needed by this application are not granted</string>
     <string name="need_internet">No internet connection</string>
+
+    <!--About Fragment-->
+    <string name="email" translatable="false">sergiu@serj.ro</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

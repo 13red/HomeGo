@@ -7,9 +7,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.test.homego.ui.AdsListFragment
 import com.test.homego.data.DataConnection
+import com.test.homego.ui.AboutFragment
+import com.test.homego.ui.BookmarksFragment
+import com.test.homego.ui.model.ItemsViewModel
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,
@@ -19,14 +23,27 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        val id = menuItem.getItemId()
-
-        when (id) {
-            R.id.home -> {
-
+        when (menuItem.itemId) {
+            R.id.homeGo -> {
+                // Clear saved data
+                ViewModelProviders.of(this).get(ItemsViewModel::class.java).items = null
+                setTitle(R.string.app_name)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentPlaceholder, AdsListFragment.newInstance())
+                    .addToBackStack(null)
+                    .commit()
             }
             R.id.bookmarks -> {
-
+                setTitle(R.string.bookmarks)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentPlaceholder, BookmarksFragment.newInstance("", ""))
+                    .commit()
+            }
+            R.id.about -> {
+                setTitle(R.string.about)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentPlaceholder, AboutFragment.newInstance())
+                    .commit()
             }
         }
 

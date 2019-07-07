@@ -6,6 +6,11 @@
 
     <group android:checkableBehavior="single">
         <item
+                android:id="@+id/homeGo"
+                android:icon="@drawable/home"
+                android:title="@string/home"
+                android:checked="true"/>
+        <item
                 android:id="@+id/bookmarks"
                 android:icon="@drawable/bookmarks"
                 android:title="@string/bookmarks" />
