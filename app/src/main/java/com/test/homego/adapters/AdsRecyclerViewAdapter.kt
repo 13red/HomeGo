@@ -6,19 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.test.homego.R
-import com.test.homego.ui.AdListFragment
+import com.test.homego.data.model.Item
+import com.test.homego.ui.AdsListFragment
 
 import kotlinx.android.synthetic.main.list_entry_ad.view.*
 
-class AdsRecyclerViewAdapter(private val mListener: AdListFragment.OnAdListFragmentListener?) :
-    RecyclerView.Adapter<AdsRecyclerViewAdapter.ViewHolder>() {
+class AdsRecyclerViewAdapter(private val mItems : List<Item>,
+                             private val mListener: AdsListFragment.OnAdListFragmentListener?)
+    : RecyclerView.Adapter<AdsRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
-    private val mValues: List<String> = listOf("a", "b", "c")
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as String
+            val item = v.tag as Item
             mListener?.onListFragmentInteraction()
         }
     }
@@ -30,8 +31,12 @@ class AdsRecyclerViewAdapter(private val mListener: AdListFragment.OnAdListFragm
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
-        holder.mAdName.text = item
+        val item = mItems[position]
+
+        holder.mAdName.text = if (item.title != null) item.title else ""
+        holder.mAdLocation.text = if (item.street != null && item.city != null) "${item.street}, ${item.city}" else ""
+        holder.mAdPrice.text = if (item.price != null) item.price.toString() else "0"
+        holder.mAdCurency.text = if (item.currency != null) item.currency else ""
 
         with(holder.mView) {
             tag = item
@@ -39,9 +44,12 @@ class AdsRecyclerViewAdapter(private val mListener: AdListFragment.OnAdListFragm
         }
     }
 
-    override fun getItemCount(): Int = mValues.size
+    override fun getItemCount(): Int = mItems.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mAdName: TextView = mView.adName
+        val mAdLocation: TextView = mView.adLocation
+        val mAdPrice: TextView = mView.adPrice
+        val mAdCurency: TextView = mView.adCurrency
     }
 }

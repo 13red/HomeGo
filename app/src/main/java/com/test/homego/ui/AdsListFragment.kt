@@ -3,15 +3,21 @@ package com.test.homego.ui
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.homego.R
 import com.test.homego.adapters.AdsRecyclerViewAdapter
+import com.test.homego.data.DataConnection
+import com.test.homego.data.model.AdsData
+import kotlinx.android.synthetic.main.fragment_ad_list.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class AdListFragment : Fragment() {
+class AdsListFragment : Fragment() {
 
     private var listener: OnAdListFragmentListener? = null
 
@@ -25,13 +31,26 @@ class AdListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_ad_list, container, false)
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = AdsRecyclerViewAdapter(listener)
+        DataConnection(activity as AppCompatActivity).getAds(object : Callback<AdsData> {
+            override fun onFailure(call: Call<AdsData>, t: Throwable) {
+                t.printStackTrace()
             }
-        }
+
+            override fun onResponse(call: Call<AdsData>, response: Response<AdsData>) {
+                response.body()?.let {
+                    view.progressBar.visibility = View.GONE
+                    with(view.list) {
+                        layoutManager = LinearLayoutManager(context)
+                        val items = it.items
+                        if (items != null) {
+                            adapter = AdsRecyclerViewAdapter(items, listener)
+                        }
+                    }
+                }
+            }
+
+        })
+
         return view
     }
 
@@ -54,8 +73,7 @@ class AdListFragment : Fragment() {
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance() = AdListFragment()
+        fun newInstance() = AdsListFragment()
     }
 }

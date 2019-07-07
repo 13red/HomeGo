@@ -1,7 +1,6 @@
 package com.test.homego
 
 import android.os.Bundle
-import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -9,13 +8,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import com.test.homego.ui.AdListFragment
-import com.test.homego.adapters.SectionsPagerAdapter
+import com.test.homego.ui.AdsListFragment
 import com.test.homego.data.DataConnection
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,
-    AdListFragment.OnAdListFragmentListener{
+    AdsListFragment.OnAdListFragmentListener{
 
     override fun onListFragmentInteraction() {
     }
@@ -41,11 +39,6 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Init ViewPager
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = findViewById(R.id.view_pager)
-        viewPager.adapter = sectionsPagerAdapter
-
         // Init Menu and Toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -58,8 +51,11 @@ class MainActivity : AppCompatActivity(),
         toggle.syncState()
         navigationView.setNavigationItemSelectedListener(this)
 
-        // GetData
-        DataConnection(this).getData()
+        // Start with Loading fragment
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentPlaceholder, AdsListFragment.newInstance())
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onBackPressed() {

@@ -2,10 +2,10 @@
 <androidx.appcompat.widget.LinearLayoutCompat
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:padding="@dimen/list_padding"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/list_padding">
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -28,18 +28,24 @@
                 android:layout_marginStart="@dimen/entry_price_margin"
                 android:layout_alignBottom="@+id/adImage"
                 android:layout_alignStart="@+id/adImage">
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/adPrice"
+            <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/text_padding"
-                    style="@style/ad_text"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/adCurrency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/text_padding"
-                    style="@style/ad_text"/>
+                    android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/adPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/ad_text"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/adCurrency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/text_margin"
+                        android:paddingEnd="0dp"
+                        style="@style/ad_text"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
@@ -48,12 +54,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/text_padding"
+            android:layout_marginStart="@dimen/text_margin"
             style="@style/ad_title"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginStart="@dimen/entry_price_margin"
             android:gravity="center_vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -69,5 +77,10 @@
                 android:padding="@dimen/text_padding"
                 style="@style/ad_text"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_separator"
+            android:background="@color/colorPrimary"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

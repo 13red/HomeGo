@@ -24,7 +24,7 @@
 
     <style name="ad_title">
         <item name="android:textColor">@android:color/black</item>
-        <item name="android:textFontWeight">700</item>
+        <item name="android:textFontWeight">900</item>
     </style>
 
     <style name="ad_text">

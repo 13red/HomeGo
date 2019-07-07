@@ -14,7 +14,7 @@
 
     <!--Connection-->
     <string name="warning">Warning</string>
-    <string name="need_permissions">Permissions needed by this app are not granted</string>
+    <string name="need_permissions">Permissions needed by this application are not granted</string>
     <string name="need_internet">No internet connection</string>
 
 </resources>
