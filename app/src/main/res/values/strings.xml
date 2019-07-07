@@ -16,6 +16,7 @@
 
     <!--Ad-->
     <string name="location">Location</string>
+    <string name="picture">Picture</string>
     <string name="bookmark">Bookmark</string>
 
     <!--Details Fragment-->

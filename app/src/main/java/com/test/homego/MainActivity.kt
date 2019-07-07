@@ -10,14 +10,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.test.homego.data.model.Item
-import com.test.homego.ui.AdsListFragment
-import com.test.homego.ui.AboutFragment
-import com.test.homego.ui.AdDetailsFragment
-import com.test.homego.ui.BookmarksFragment
+import com.test.homego.ui.*
 import com.test.homego.ui.model.ItemsViewModel
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,
+    AdDetailsFragment.OnAdDetailsFragmentListener,
     AdsListFragment.OnAdsListFragmentListener{
 
     override fun onItemSelected(item: Item) {
@@ -25,6 +23,13 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentPlaceholder, AdDetailsFragment.newInstance())
             .addToBackStack(getString(R.string.details))
+            .commit()
+    }
+
+    override fun onPictureClicked() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentPlaceholder, PicturesFragment.newInstance())
+            .addToBackStack(getString(R.string.picture))
             .commit()
     }
 
