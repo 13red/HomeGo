@@ -43,7 +43,7 @@ class AdsListFragment : Fragment() {
                         layoutManager = LinearLayoutManager(context)
                         val items = it.items
                         if (items != null) {
-                            adapter = AdsRecyclerViewAdapter(items, listener)
+                            adapter = AdsRecyclerViewAdapter(context, items, listener)
                         }
                     }
                 }
