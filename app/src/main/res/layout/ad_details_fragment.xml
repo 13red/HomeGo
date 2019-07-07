@@ -1,14 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.AdDetailsFragment">
-
-    <TextView
+        android:layout_height="wrap_content">
+    <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/list_margin">
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/itemImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
+                android:background="@color/background"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/palm"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/list_margin">
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemPriceUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ad_text"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/text_margin"
+                    android:paddingEnd="0dp"
+                    style="@style/ad_title"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemCurrency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/text_margin"
+                    android:paddingEnd="0dp"
+                    style="@style/ad_text"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_margin="@dimen/list_margin">
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    style="@style/ad_title"/>
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/location"
+                    android:layout_weight="1"
+                    android:scaleType="center"
+                    app:srcCompat="@drawable/star_border"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/location"
+                    app:srcCompat="@drawable/location"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/text_margin"
+                    android:paddingEnd="0dp"
+                    style="@style/ad_text"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/list_margin">
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemFloor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ad_title"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/surface"
+                    android:paddingStart="@dimen/text_margin"
+                    android:paddingEnd="0dp"
+                    style="@style/ad_text"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemSurface"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/text_margin"
+                    android:paddingEnd="0dp"
+                    style="@style/ad_title"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/text_margin"
+                    android:paddingEnd="0dp"
+                    android:text="@string/rooms"
+                    style="@style/ad_text"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemRooms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/text_margin"
+                    android:paddingEnd="0dp"
+                    style="@style/ad_title"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/itemBalcony"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:paddingStart="@dimen/text_margin"
+                    android:paddingEnd="0dp"
+                    android:text="@string/balcony"
+                    style="@style/ad_text"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itemDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/list_padding"/>
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/entry_price_elevation"
+                android:layout_margin="@dimen/list_margin">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/itemContactPerson"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/text_padding"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/itemContactPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/text_padding"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/itemAgencyPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/text_padding"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.cardview.widget.CardView>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/list_separator"
+                android:layout_marginTop="@dimen/list_margin"
+                android:background="@color/colorPrimary"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>

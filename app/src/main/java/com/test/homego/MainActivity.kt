@@ -9,17 +9,23 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
+import com.test.homego.data.model.Item
 import com.test.homego.ui.AdsListFragment
-import com.test.homego.data.DataConnection
 import com.test.homego.ui.AboutFragment
+import com.test.homego.ui.AdDetailsFragment
 import com.test.homego.ui.BookmarksFragment
 import com.test.homego.ui.model.ItemsViewModel
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,
-    AdsListFragment.OnAdListFragmentListener{
+    AdsListFragment.OnAdsListFragmentListener{
 
-    override fun onListFragmentInteraction() {
+    override fun onItemSelected(item: Item) {
+        ViewModelProviders.of(this).get(ItemsViewModel::class.java).select(item)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentPlaceholder, AdDetailsFragment.newInstance())
+            .addToBackStack(getString(R.string.details))
+            .commit()
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
@@ -30,19 +36,20 @@ class MainActivity : AppCompatActivity(),
                 setTitle(R.string.app_name)
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentPlaceholder, AdsListFragment.newInstance())
-                    .addToBackStack(null)
                     .commit()
             }
             R.id.bookmarks -> {
                 setTitle(R.string.bookmarks)
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentPlaceholder, BookmarksFragment.newInstance("", ""))
+                    .addToBackStack(getString(R.string.bookmarks))
                     .commit()
             }
             R.id.about -> {
                 setTitle(R.string.about)
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentPlaceholder, AboutFragment.newInstance())
+                    .addToBackStack(getString(R.string.about))
                     .commit()
             }
         }
@@ -71,7 +78,6 @@ class MainActivity : AppCompatActivity(),
         // Start with Loading fragment
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentPlaceholder, AdsListFragment.newInstance())
-            .addToBackStack(null)
             .commit()
     }
 

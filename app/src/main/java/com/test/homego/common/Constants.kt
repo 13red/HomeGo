@@ -1,7 +1,8 @@
 package com.test.homego.common
 
 object Constants {
-    val BASE_URL = "http://private-492e5-homegate1.apiary-mock.com"
+    const val BASE_URL = "http://private-492e5-homegate1.apiary-mock.com"
 
-    val REQUEST_PERMISSION = 1
+    const val REQUEST_PERMISSION = 1
+    const val AD_ID = "adId"
 }

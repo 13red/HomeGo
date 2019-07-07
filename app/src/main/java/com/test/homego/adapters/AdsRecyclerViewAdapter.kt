@@ -12,13 +12,12 @@ import com.test.homego.data.model.Item
 import com.test.homego.ui.AdsListFragment
 
 import kotlinx.android.synthetic.main.list_entry_ad.view.*
-import com.jakewharton.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import com.test.homego.data.PicassoSingleton
 
 class AdsRecyclerViewAdapter(private val context: Context,
                              private val mItems : List<Item>,
-                             private val mListener: AdsListFragment.OnAdListFragmentListener?)
+                             private val mListener: AdsListFragment.OnAdsListFragmentListener?)
     : RecyclerView.Adapter<AdsRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
@@ -26,8 +25,7 @@ class AdsRecyclerViewAdapter(private val context: Context,
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as Item
-            mListener?.onListFragmentInteraction()
+            mListener?.onItemSelected(v.tag as Item)
         }
         mPicasso = PicassoSingleton.getInstance(context)
     }
@@ -41,7 +39,7 @@ class AdsRecyclerViewAdapter(private val context: Context,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mItems[position]
 
-        holder.mAdName.text = if (item.title != null) item.title else ""
+        holder.mAdTitle.text = if (item.title != null) item.title else ""
         holder.mAdLocation.text = if (item.street != null && item.city != null) "${item.street}, ${item.city}" else ""
         holder.mAdPrice.text = if (item.price != null) item.price.toString() else "0"
         holder.mAdCurency.text = if (item.currency != null) item.currency else ""
@@ -61,7 +59,7 @@ class AdsRecyclerViewAdapter(private val context: Context,
     override fun getItemCount(): Int = mItems.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mAdName: TextView = mView.adName
+        val mAdTitle: TextView = mView.adTitle
         val mAdLocation: TextView = mView.adLocation
         val mAdPrice: TextView = mView.adPrice
         val mAdCurency: TextView = mView.adCurrency

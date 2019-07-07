@@ -8,7 +8,7 @@
         android:layout_height="match_parent">
 
     <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/listProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -17,7 +17,7 @@
             style="@android:style/Widget.Holo.Light.ProgressBar"/>
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
+            android:id="@+id/adsList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"

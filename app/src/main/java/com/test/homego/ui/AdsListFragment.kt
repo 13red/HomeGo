@@ -13,15 +13,17 @@ import com.test.homego.R
 import com.test.homego.adapters.AdsRecyclerViewAdapter
 import com.test.homego.data.DataConnection
 import com.test.homego.data.model.AdsData
+import com.test.homego.data.model.Item
 import com.test.homego.ui.model.ItemsViewModel
-import kotlinx.android.synthetic.main.fragment_ad_list.view.*
+import kotlinx.android.synthetic.main.fragment_ad_list.listProgressBar
+import kotlinx.android.synthetic.main.fragment_ad_list.adsList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AdsListFragment : Fragment() {
 
-    private var listener: OnAdListFragmentListener? = null
+    private var listener: OnAdsListFragmentListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,40 +33,50 @@ class AdsListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_ad_list, container, false)
+        return inflater.inflate(R.layout.fragment_ad_list, container, false)
+    }
 
-        activity?.run{
-            DataConnection(activity as AppCompatActivity).getAds(object : Callback<AdsData> {
-                override fun onFailure(call: Call<AdsData>, t: Throwable) {
-                    t.printStackTrace()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        activity?.run {
+            val savedItems = ViewModelProviders.of(activity!!).get(ItemsViewModel::class.java).items
+            if (savedItems != null) {
+                listProgressBar.visibility = View.GONE
+                with(adsList) {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = AdsRecyclerViewAdapter(applicationContext, savedItems, listener)
                 }
+            } else {
 
-                override fun onResponse(call: Call<AdsData>, response: Response<AdsData>) {
-                    response.body()?.let {
-                        view.progressBar.visibility = View.GONE
-                        with(view.list) {
-                            layoutManager = LinearLayoutManager(context)
-                            val items = it.items
-                            if (items != null) {
-                                adapter = AdsRecyclerViewAdapter(applicationContext, items, listener)
-                                ViewModelProviders.of(activity!!).get(ItemsViewModel::class.java).items = items
+                DataConnection(activity as AppCompatActivity).getAds(object : Callback<AdsData> {
+                    override fun onFailure(call: Call<AdsData>, t: Throwable) {
+                        t.printStackTrace()
+                    }
+
+                    override fun onResponse(call: Call<AdsData>, response: Response<AdsData>) {
+                        response.body()?.let {
+                            listProgressBar.visibility = View.GONE
+                            with(adsList) {
+                                layoutManager = LinearLayoutManager(context)
+                                val items = it.items
+                                if (items != null) {
+                                    adapter = AdsRecyclerViewAdapter(applicationContext, items, listener)
+                                    ViewModelProviders.of(activity!!).get(ItemsViewModel::class.java).items = items
+                                }
                             }
                         }
                     }
-                }
-
-            })
+                })
+            }
         } ?: throw IllegalStateException("Activity cannot be null")
-
-        return view
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnAdListFragmentListener) {
+        if (context is OnAdsListFragmentListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnAdListFragmentListener")
+            throw RuntimeException(context.toString() + " must implement OnAdsListFragmentListener")
         }
     }
 
@@ -73,8 +85,8 @@ class AdsListFragment : Fragment() {
         listener = null
     }
 
-    interface OnAdListFragmentListener {
-        fun onListFragmentInteraction()
+    interface OnAdsListFragmentListener {
+        fun onItemSelected(item : Item)
     }
 
     companion object {

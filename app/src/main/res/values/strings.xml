@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">HomeGo</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+
+    <!--Connection-->
+    <string name="warning">Warning</string>
+    <string name="need_permissions">Permissions needed by this application are not granted</string>
+    <string name="need_internet">No internet connection</string>
 
     <!--Menu-->
     <string name="nav_drawer_open">Open drawer</string>
@@ -9,14 +12,16 @@
     <string name="home">Home</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="about">About</string>
+    <string name="details">Details</string>
 
     <!--Ad-->
     <string name="location">Location</string>
+    <string name="bookmark">Bookmark</string>
 
-    <!--Connection-->
-    <string name="warning">Warning</string>
-    <string name="need_permissions">Permissions needed by this application are not granted</string>
-    <string name="need_internet">No internet connection</string>
+    <!--Details Fragment-->
+    <string name="rooms">Rooms</string>
+    <string name="surface">Surface</string>
+    <string name="balcony">Balcony</string>
 
     <!--About Fragment-->
     <string name="email" translatable="false">sergiu@serj.ro</string>

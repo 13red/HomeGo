@@ -5,7 +5,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/list_padding">
+        android:layout_marginTop="@dimen/list_margin">
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -17,7 +17,7 @@
                 android:layout_height="@dimen/entry_image_height"
                 android:contentDescription="@string/app_name"
                 android:background="@color/background"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 app:srcCompat="@drawable/palm"/>
 
         <androidx.cardview.widget.CardView
@@ -50,31 +50,29 @@
     </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/adName"
+            android:id="@+id/adTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/text_padding"
-            android:layout_marginStart="@dimen/text_margin"
+            android:padding="@dimen/list_padding"
             style="@style/ad_title"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginStart="@dimen/entry_price_margin"
+            android:layout_margin="@dimen/list_margin"
             android:gravity="center_vertical">
-
         <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:contentDescription="@string/location"
                 app:srcCompat="@drawable/location"/>
-
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/adLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/text_padding"
+                android:paddingStart="@dimen/text_margin"
+                android:paddingEnd="0dp"
                 style="@style/ad_text"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
