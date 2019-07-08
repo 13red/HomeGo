@@ -10,14 +10,20 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.test.homego.R
+import com.test.homego.data.BookmarksDbSingleton
 import com.test.homego.data.PicassoSingleton
+import com.test.homego.data.model.Bookmark
 import com.test.homego.data.model.Item
 import com.test.homego.ui.model.ItemsViewModel
 import kotlinx.android.synthetic.main.fragment_ad_details.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class AdDetailsFragment : Fragment() {
 
     private var listener: OnAdDetailsFragmentListener? = null
+    private var bookmarked = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +41,10 @@ class AdDetailsFragment : Fragment() {
 
     private fun populateFields(item: Item?) {
         item?.run {
+            var mainPicture : String? = null
             pictures?.let {
                 if (it.size > 0) {
+                    mainPicture = it[0]
                     PicassoSingleton.getInstance(context!!).load(it[0]).into(itemImage)
                     itemImage.setOnClickListener(object : View.OnClickListener{
                         override fun onClick(p0: View?) {
@@ -45,6 +53,37 @@ class AdDetailsFragment : Fragment() {
                     })
                 }
             }
+
+            advertisementId?.let {
+                GlobalScope.launch {
+                    val bookmark = async {
+                        BookmarksDbSingleton.getInstance(context!!).bookmarksDao().loadById(it)
+                    }.await()
+                    bookmark?.let {
+                        itemBookmark.setImageResource(R.drawable.star)
+                        bookmarked = true
+                    }
+                }
+            }
+
+            itemBookmark.setOnClickListener(object : View.OnClickListener{
+                override fun onClick(view: View?) {
+                    val bookmark = Bookmark(advertisementId, title, street, city, currency, price, mainPicture)
+                    if (bookmarked) {
+                        itemBookmark.setImageResource(R.drawable.star_border)
+                        GlobalScope.launch {
+                            BookmarksDbSingleton.getInstance(context!!).bookmarksDao().delete(bookmark)
+                        }
+                    } else {
+                        itemBookmark.setImageResource(R.drawable.star)
+                        GlobalScope.launch {
+                            BookmarksDbSingleton.getInstance(context!!).bookmarksDao().insert(bookmark)
+                        }
+                    }
+                    bookmarked = !bookmarked
+                }
+
+            })
 
             itemPriceUnit.text = if (priceUnit != null) priceUnit else ""
             itemPrice.text = if (price != null) price.toString() else ""
