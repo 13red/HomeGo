@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".ui.BookmarksFragment">
+<androidx.appcompat.widget.LinearLayoutCompat
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ProgressBar
+            android:id="@+id/bookmarksProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            android:padding="@dimen/list_padding"
+            style="@android:style/Widget.Holo.Light.ProgressBar"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bookmarksKein"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:text="@string/no_bookmarks"
+            android:padding="@dimen/list_padding"
+            style="@style/ad_title"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bookmarksList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
-
-</FrameLayout>
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".ui.BookmarksFragment"
+            tools:listitem="@layout/list_entry_ad"/>
+</androidx.appcompat.widget.LinearLayoutCompat>

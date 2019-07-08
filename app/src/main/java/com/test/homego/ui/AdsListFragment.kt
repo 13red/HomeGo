@@ -10,13 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.homego.R
-import com.test.homego.adapters.AdsRecyclerViewAdapter
+import com.test.homego.adapters.AdsRecyclerAdapter
 import com.test.homego.data.DataConnection
 import com.test.homego.data.model.AdsData
 import com.test.homego.data.model.Item
 import com.test.homego.ui.model.ItemsViewModel
-import kotlinx.android.synthetic.main.fragment_ad_list.listProgressBar
-import kotlinx.android.synthetic.main.fragment_ad_list.adsList
+import kotlinx.android.synthetic.main.fragment_ad_list.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,13 +40,12 @@ class AdsListFragment : Fragment() {
         activity?.run {
             val savedItems = ViewModelProviders.of(activity!!).get(ItemsViewModel::class.java).items
             if (savedItems != null) {
-                listProgressBar.visibility = View.GONE
+                adsProgressBar.visibility = View.GONE
                 with(adsList) {
                     layoutManager = LinearLayoutManager(context)
-                    adapter = AdsRecyclerViewAdapter(applicationContext, savedItems, listener)
+                    adapter = AdsRecyclerAdapter(applicationContext, savedItems, listener)
                 }
             } else {
-
                 DataConnection(activity as AppCompatActivity).getAds(object : Callback<AdsData> {
                     override fun onFailure(call: Call<AdsData>, t: Throwable) {
                         t.printStackTrace()
@@ -55,12 +53,12 @@ class AdsListFragment : Fragment() {
 
                     override fun onResponse(call: Call<AdsData>, response: Response<AdsData>) {
                         response.body()?.let {
-                            listProgressBar.visibility = View.GONE
+                            adsProgressBar.visibility = View.GONE
                             with(adsList) {
                                 layoutManager = LinearLayoutManager(context)
                                 val items = it.items
                                 if (items != null) {
-                                    adapter = AdsRecyclerViewAdapter(applicationContext, items, listener)
+                                    adapter = AdsRecyclerAdapter(applicationContext, items, listener)
                                     ViewModelProviders.of(activity!!).get(ItemsViewModel::class.java).items = items
                                 }
                             }

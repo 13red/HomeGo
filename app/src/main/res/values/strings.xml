@@ -12,12 +12,15 @@
     <string name="home">Home</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="about">About</string>
+
+    <!--Fragments-->
+    <string name="location">Location</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="pictures">Pictures</string>
     <string name="details">Details</string>
 
-    <!--Ad-->
-    <string name="location">Location</string>
-    <string name="picture">Picture</string>
-    <string name="bookmark">Bookmark</string>
+    <!--Bookmark Fragment-->
+    <string name="no_bookmarks">You have no Bookmarks</string>
 
     <!--Details Fragment-->
     <string name="rooms">Rooms</string>

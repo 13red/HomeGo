@@ -15,10 +15,10 @@ import kotlinx.android.synthetic.main.list_entry_ad.view.*
 import com.squareup.picasso.Picasso
 import com.test.homego.data.PicassoSingleton
 
-class AdsRecyclerViewAdapter(private val context: Context,
-                             private val mItems : List<Item>,
-                             private val mListener: AdsListFragment.OnAdsListFragmentListener?)
-    : RecyclerView.Adapter<AdsRecyclerViewAdapter.ViewHolder>() {
+class AdsRecyclerAdapter(private val mContext: Context,
+                         private val mItems : List<Item>,
+                         private val mListener: AdsListFragment.OnAdsListFragmentListener?)
+    : RecyclerView.Adapter<AdsRecyclerAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
     private val mPicasso: Picasso
@@ -27,7 +27,7 @@ class AdsRecyclerViewAdapter(private val context: Context,
         mOnClickListener = View.OnClickListener { v ->
             mListener?.onItemSelected(v.tag as Item)
         }
-        mPicasso = PicassoSingleton.getInstance(context)
+        mPicasso = PicassoSingleton.getInstance(mContext)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

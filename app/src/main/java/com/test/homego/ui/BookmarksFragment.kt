@@ -1,64 +1,88 @@
 package com.test.homego.ui
 
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.test.homego.R
+import com.test.homego.adapters.BookmarksRecyclerAdapter
+import com.test.homego.data.BookmarksDbSingleton
+import com.test.homego.data.model.Bookmark
+import com.test.homego.ui.model.BookmarksViewModel
+import kotlinx.android.synthetic.main.fragment_bookmarks.*
+import kotlinx.coroutines.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [BookmarksFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class BookmarksFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var listener: OnBookmarksFragmentListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_bookmarks, container, false)
     }
 
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BookmarksFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BookmarksFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        activity?.run {
+            val savedBookmarks = ViewModelProviders.of(activity!!).get(BookmarksViewModel::class.java).bookmarks
+            if (savedBookmarks != null) {
+                bookmarksProgressBar.visibility = View.GONE
+                with(bookmarksList) {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = BookmarksRecyclerAdapter(applicationContext, savedBookmarks, listener)
+                }
+            } else {
+                MainScope().launch {
+                    val bookmarks = getBookmarks()
+                    bookmarksProgressBar.visibility = View.GONE
+                    if (bookmarks.isEmpty()) {
+                        bookmarksKein.visibility = View.VISIBLE
+                    } else {
+                        with(bookmarksList) {
+                            layoutManager = LinearLayoutManager(context)
+                            adapter = BookmarksRecyclerAdapter(applicationContext, bookmarks, listener)
+                            ViewModelProviders.of(activity!!).get(BookmarksViewModel::class.java).bookmarks = bookmarks
+                        }
+                    }
                 }
             }
+        } ?: throw IllegalStateException("Activity cannot be null")
+    }
+
+    private suspend fun getBookmarks() : List<Bookmark>  = withContext(Dispatchers.IO) {
+        BookmarksDbSingleton.getInstance(context!!).bookmarksDao().getAll()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnBookmarksFragmentListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnAdsListFragmentListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
+    interface OnBookmarksFragmentListener {
+        fun onBookmarkSelected(bookmark : Bookmark)
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = BookmarksFragment()
     }
 }
