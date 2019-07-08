@@ -7,7 +7,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.test.homego.common.InfoFragmentDialog
@@ -28,19 +27,11 @@ class MainActivity : AppCompatActivity(),
     BookmarksFragment.OnBookmarksFragmentListener {
 
     override fun onItemSelected(item: Item) {
-        displayDetails(item, true)
-    }
-
-    private fun displayDetails(item: Item, addToBackStack : Boolean) {
         ViewModelProviders.of(this).get(ItemsViewModel::class.java).select(item)
-        val transaction = supportFragmentManager.beginTransaction()
+        supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentPlaceholder, AdDetailsFragment.newInstance())
-        if (addToBackStack) {
-            transaction.addToBackStack(getString(R.string.details))
-        } else {
-            transaction.addToBackStack(null)
-        }
-        transaction.commit()
+            .addToBackStack(getString(R.string.details))
+            .commit()
     }
 
     override fun onPictureClicked() {
@@ -56,7 +47,7 @@ class MainActivity : AppCompatActivity(),
         items?.run {
             for (item in items) {
                 if(item.advertisementId == bookmark.advertisementId) {
-                    displayDetails(item, false)
+                    onItemSelected(item)
                     return
                 }
             }
@@ -75,9 +66,9 @@ class MainActivity : AppCompatActivity(),
     private fun showHome() {
         // Clear saved ads
         ViewModelProviders.of(this).get(ItemsViewModel::class.java).items = null
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentPlaceholder, AdsListFragment.newInstance())
-            .commit()
+        val intent = intent
+        finish()
+        startActivity(intent)
     }
 
     private fun showBookmarks() {
@@ -97,8 +88,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        supportFragmentManager.popBackStack(null, 0);
-
         when (menuItem.itemId) {
             R.id.homeGo -> showHome()
             R.id.bookmarks -> showBookmarks()
