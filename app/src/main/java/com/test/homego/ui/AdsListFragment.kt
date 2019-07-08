@@ -37,7 +37,9 @@ class AdsListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         activity?.run {
+            setTitle(R.string.app_name)
             val savedItems = ViewModelProviders.of(activity!!).get(ItemsViewModel::class.java).items
             if (savedItems != null) {
                 adsProgressBar.visibility = View.GONE

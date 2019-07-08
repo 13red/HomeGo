@@ -23,6 +23,7 @@ class PicturesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_pictures, container, false)
 
         activity?.run {
+            setTitle(R.string.pictures)
             val item = ViewModelProviders.of(activity!!).get(ItemsViewModel::class.java).selected
             if (item != null) {
                 val picturesList = item.pictures

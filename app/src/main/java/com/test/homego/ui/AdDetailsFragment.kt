@@ -16,9 +16,7 @@ import com.test.homego.data.model.Bookmark
 import com.test.homego.data.model.Item
 import com.test.homego.ui.model.ItemsViewModel
 import kotlinx.android.synthetic.main.fragment_ad_details.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class AdDetailsFragment : Fragment() {
 
@@ -34,7 +32,9 @@ class AdDetailsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         activity?.run {
+            setTitle(R.string.details)
             populateFields(ViewModelProviders.of(activity!!).get(ItemsViewModel::class.java).selected)
         } ?: throw IllegalStateException("Activity cannot be null")
     }
@@ -55,10 +55,8 @@ class AdDetailsFragment : Fragment() {
             }
 
             advertisementId?.let {
-                GlobalScope.launch {
-                    val bookmark = async {
-                        BookmarksDbSingleton.getInstance(context!!).bookmarksDao().loadById(it)
-                    }.await()
+                MainScope().launch {
+                    val bookmark = getBookmark(it)
                     bookmark?.let {
                         itemBookmark.setImageResource(R.drawable.star)
                         bookmarked = true
@@ -105,6 +103,10 @@ class AdDetailsFragment : Fragment() {
             itemAgencyPhone.text = if (agencyPhoneDay != null) agencyPhoneDay else ""
             Linkify.addLinks(itemAgencyPhone, Linkify.PHONE_NUMBERS);
         }
+    }
+
+    private suspend fun getBookmark(id : Long) : Bookmark? = withContext(Dispatchers.IO) {
+            BookmarksDbSingleton.getInstance(context!!).bookmarksDao().loadById(id)
     }
 
     override fun onAttach(context: Context) {

@@ -34,6 +34,7 @@ class BookmarksFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         activity?.run {
+            setTitle(R.string.bookmarks)
             val savedBookmarks = ViewModelProviders.of(activity!!).get(BookmarksViewModel::class.java).bookmarks
             if (savedBookmarks != null) {
                 bookmarksProgressBar.visibility = View.GONE

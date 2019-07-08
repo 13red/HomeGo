@@ -21,6 +21,12 @@ class AboutFragment : Fragment() {
         return view
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        activity?.setTitle(R.string.about)
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = AboutFragment()

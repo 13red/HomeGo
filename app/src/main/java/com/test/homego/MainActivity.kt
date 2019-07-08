@@ -7,14 +7,19 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
+import com.test.homego.common.InfoFragmentDialog
+import com.test.homego.data.BookmarksDbSingleton
 import com.test.homego.data.model.Bookmark
 import com.test.homego.data.model.Item
 import com.test.homego.ui.*
 import com.test.homego.ui.model.BookmarksViewModel
 import com.test.homego.ui.model.ItemsViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,
@@ -27,7 +32,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun displayDetails(item: Item, addToBackStack : Boolean) {
-        setTitle(R.string.details)
         ViewModelProviders.of(this).get(ItemsViewModel::class.java).select(item)
         val transaction = supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentPlaceholder, AdDetailsFragment.newInstance())
@@ -40,7 +44,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onPictureClicked() {
-        setTitle(R.string.pictures)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentPlaceholder, PicturesFragment.newInstance())
             .addToBackStack(getString(R.string.pictures))
@@ -57,36 +60,49 @@ class MainActivity : AppCompatActivity(),
                     return
                 }
             }
+
+            // Bookmark is no longer available, remove it
+            InfoFragmentDialog(R.string.removed_bookmark)
+                .show(supportFragmentManager, getString(R.string.warning))
+            GlobalScope.launch {
+                BookmarksDbSingleton.getInstance(applicationContext).bookmarksDao().delete(bookmark)
+            }
+            showBookmarks()
         }
 
     }
 
+    private fun showHome() {
+        // Clear saved ads
+        ViewModelProviders.of(this).get(ItemsViewModel::class.java).items = null
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentPlaceholder, AdsListFragment.newInstance())
+            .commit()
+    }
+
+    private fun showBookmarks() {
+        // Clear saved bookmarks
+        ViewModelProviders.of(this).get(BookmarksViewModel::class.java).bookmarks = null
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentPlaceholder, BookmarksFragment.newInstance())
+            .addToBackStack(getString(R.string.bookmarks))
+            .commit()
+    }
+
+    private fun showAbout() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentPlaceholder, AboutFragment.newInstance())
+            .addToBackStack(getString(R.string.about))
+            .commit()
+    }
+
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+        supportFragmentManager.popBackStack(null, 0);
+
         when (menuItem.itemId) {
-            R.id.homeGo -> {
-                // Clear saved ads
-                ViewModelProviders.of(this).get(ItemsViewModel::class.java).items = null
-                setTitle(R.string.app_name)
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentPlaceholder, AdsListFragment.newInstance())
-                    .commit()
-            }
-            R.id.bookmarks -> {
-                // Clear saved bookmarks
-                ViewModelProviders.of(this).get(BookmarksViewModel::class.java).bookmarks = null
-                setTitle(R.string.bookmarks)
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentPlaceholder, BookmarksFragment.newInstance())
-                    .addToBackStack(getString(R.string.bookmarks))
-                    .commit()
-            }
-            R.id.about -> {
-                setTitle(R.string.about)
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentPlaceholder, AboutFragment.newInstance())
-                    .addToBackStack(getString(R.string.about))
-                    .commit()
-            }
+            R.id.homeGo -> showHome()
+            R.id.bookmarks -> showBookmarks()
+            R.id.about -> showAbout()
         }
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
